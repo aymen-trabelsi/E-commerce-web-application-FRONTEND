@@ -1,0 +1,7 @@
+import {Product} from "./Product";
+
+export class Commande {
+  id    : number = 0;
+  date : Date = new Date();
+  products : Product[] = []  ;
+}

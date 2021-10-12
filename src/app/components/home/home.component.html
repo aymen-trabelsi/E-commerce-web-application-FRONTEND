@@ -1,0 +1,151 @@
+
+
+<div class="container">
+  <!-- Top box -->
+  <!-- Logo & Site Name -->
+  <div class="placeholder ">
+    <div class="parallax-window" data-parallax="scroll" data-image-src="../../../assets/home/img/simple-house-01.jpg">
+      <div class="tm-header">
+        <div class="row tm-header-inner">
+          <div class="col-md-6 col-12">
+            <img src="../../../assets/home/img/simple-house-logo.png" alt="Logo" class="tm-site-logo" />
+            <div class="tm-site-text-box">
+              <h1 class="tm-site-title">Simple Food</h1>
+              <h6 class="tm-site-description"> </h6>
+            </div>
+          </div>
+          <nav class="col-md-6 col-12 tm-nav">
+            <ul class="tm-nav-ul">
+              <li class="tm-nav-li"><a  routerLink="/home" class="tm-nav-link active">Home</a></li>
+              <li class="tm-nav-li" *ngIf="isAdmin" ><a  routerLink="/administration" class="tm-nav-link ">Administration</a></li>
+              <li class="tm-nav-li"><a   (click)="logout()"  class="tm-nav-link">Log out</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <header class="row tm-welcome-section">
+      <h2 class="col-12 text-center tm-section-title"><u>Welcome to Simple Food</u></h2>
+    </header>
+
+
+    <!-- Gallery -->
+    <div class="row">
+    <div class="tm-gallery col-md-9">
+      <div class="row">
+      <div class="col-md-4">
+        All Commandes
+        <button (click)="getCommandes()" data-toggle="modal" data-target="#allCommandes"  class="tm-btn" style="background-color: transparent ;"   >
+          <img width="40px" height="40px" src="assets/images/note.png" >
+        </button>
+      </div>
+      <div class="col-md-6">
+        <h2 class=" text-center tm-section-title">Our Food</h2>
+      </div>
+      </div>
+      <!-- gallery page 1 -->
+      <div id="tm-gallery-page-pizza" class="tm-gallery-page">
+        <div *ngFor="let product of products; let i = index ">
+          <article class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+            <figure>
+              <img src={{product.image}} alt="Image" class="img-fluid tm-gallery-img"  />
+              <figcaption>
+                <h4 class="tm-gallery-title">{{product.name}}</h4>
+                <p class="tm-gallery-description">{{product.description}}</p>
+                <div class="row">
+                  <div class="col-md-4" >
+                    <p  class="tm-gallery-price">{{product.price}} DT
+                    </p>
+                  </div>
+                  <div class="col-md-5">
+                    <button  class="tm-btn" style="background-color: transparent;width:10vw;height: 3vw; font-size: 13px;" (click)="addToCard(i)">
+                      <img width="30px" height="30px" src="assets/images/add-to-cart.png">
+                    </button>
+                  </div>
+                </div>
+              </figcaption>
+            </figure>
+          </article>
+        </div>
+      </div> <!-- gallery page 1 -->
+    </div>
+    <div class="col-md-3" style="border-left: solid 1px grey">
+      <h2 align="center"> Card ({{nbProducts}}) </h2>
+      <hr>
+      <p *ngIf="!nbProducts" > No products in Card.</p>
+      <div *ngFor="let product of listProducts; let i = index " style="margin-top: 5px">
+        <div class="row">
+          <div class="col-md-4">
+            <img src={{product.image}} alt="Image" width="70px" height="70px" style="border-radius: 50px"/>
+          </div>
+          <div class="col-md-4" style="margin-top: 20px">
+            {{product.name}}
+          </div>
+          <div class="col-md-4" style="margin-top: 20px">
+            {{product.price}} dt
+          </div>
+        </div>
+      </div>
+      <hr>
+      Total : {{finalPrice}}
+      <br>
+      <div align="center">
+        <button class="tm-btn" style=" width:10vw;height: 3vw; font-size: 13px;border: solid 1px #0b0b0b" [disabled]="!nbProducts" (click)="buy()"> Buy</button>
+      </div>
+    </div>
+    </div>
+  </main>
+
+  <footer class="tm-footer text-center">
+    <p>Copyright &copy; 2020 Simple House
+
+      | Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
+  </footer>
+</div>
+
+<div class="modal fade" id="allCommandes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> All Commands</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <hr *ngIf="!nbCommends"/>
+          <p *ngIf="nbCommends" > No commands for Me.</p>
+          <div *ngFor="let commande of commandes; let i = index ">
+          <div class="row">
+            <div class="col-md-3">
+              {{commande.date}}
+            </div>
+            <div class="col-md-8">
+               <div *ngFor="let product of commande.products ; let j = index ">
+                 <div class="row">
+                   <div class="col-md-4">
+                     <img src={{product.image}} alt="Image" width="70px" height="70px" style="border-radius: 50px"/>
+                   </div>
+                   <div class="col-md-4" style="margin-top: 20px">
+                     {{product.name}}
+                   </div>
+                   <div class="col-md-4" style="margin-top: 20px">
+                     {{product.price}} dt
+                   </div>
+                 </div>
+               </div>
+            </div>
+          </div>
+          <hr>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-danger"  type="reset" data-dismiss="modal"  >Close</button>
+        </div>
+    </div>
+  </div>
+</div>
+
